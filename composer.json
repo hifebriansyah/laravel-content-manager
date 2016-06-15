@@ -1,0 +1,15 @@
+{
+    "name": "mfebriansyah/laravel-content-manager",
+    "description": "content management system for laravel",
+    "type": "library",
+    "require": {
+        "laravelcollective/html": "^5.2"
+    },
+    "authors": [
+        {
+            "name": "muhammad febriansyah",
+            "email": "febri.init@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable"
+}
