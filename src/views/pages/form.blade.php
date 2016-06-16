@@ -47,7 +47,7 @@
                                             <div class="form-group {!! $errors->has($scheme->Field) ? 'has-error' : '' !!}">
                                                 <?php 
                                                     $reference = $model->getReference($scheme->Field);
-                                                    $referencedClass = "\\App\\Model\\".studly_case(str_singular($reference->REFERENCED_TABLE_NAME));
+                                                    $referencedClass = "\\App\\Models\\".studly_case(str_singular($reference->REFERENCED_TABLE_NAME));
                                                 ?>
                                                 {!! Form::label($scheme->Field, str_replace("_", " ", $scheme->Field)) !!}
                                                 {!! Form::select($scheme->Field, ['' => '---']+$referencedClass::lists($referencedClass::$columnLabel,'id')->all(), null, ['id'=>$scheme->Field, 'class'=>'form-control']) !!}{!! $errors->first($scheme->Field, '<p class="help-block">:message</p>') !!}      
@@ -83,7 +83,7 @@
                                                 {!! $errors->first($scheme->Field, '<p class="help-block">:message</p>') !!}
                                             </div>                                      
                                         @endif   
-                                        <pre class="hidden">{{var_dump($scheme)}}</pre>                              
+                                        <pre class="hiddens">{{var_dump($scheme)}}</pre>                              
                                     @endif
 
 
@@ -113,7 +113,7 @@
     <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
 @endsection
 
-@section('raw-script')
+@section('scripts')
     <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
     <script>
         $(function() {

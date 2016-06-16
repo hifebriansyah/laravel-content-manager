@@ -19,7 +19,7 @@ class GeneratorController extends Controller
     
     public function __construct()
     {
-        $class = "App\\Model\\".(\Route::current()->getParameter('class'));
+        $class = "App\\Models\\".(\Route::current()->getParameter('class'));
         $this->model = new $class;
     }
 

@@ -31,8 +31,37 @@
         <ul class="sidebar-menu">
             <li class="header">HEADER</li>
             <!-- Optionally, you can add icons to the links -->
+
             <li class="#"><a href="#"><i class="fa fa-dashboard"></i><span>Dashboard</span></a></li>
-            <li class="#"><a href="#"><i class="fa fa-list"></i><span>Manage Genres</span></a></li>
+
+            <?php 
+                $path = app_path() . "/Models";
+getModels($path);
+                function getModels($path){
+                    $out = [];
+                    $results = scandir($path);
+                    foreach ($results as $result) {
+                        if ($result === '.' or $result === '..') continue;
+                        $filename = $path . '/' . $result;
+                        if (is_dir($filename)) {
+                            $out = array_merge($out, getModels($filename));
+                        }else{
+                            $filename = explode("/",substr($filename,0,-4));
+                            $className = $filename[count($filename)-1];
+                            $filename = preg_replace('/(?!^)[A-Z]{2,}(?=[A-Z][a-z])|[A-Z][a-z]/', ' $0', $className);
+                            $filename = trim($filename); 
+                            echo '
+                                <li class="#">
+                                    <a href="'.url('lcm/gen/'.$className).'">
+                                        <i class="fa fa-list"></i><span>'.$filename.'</span>
+                                    </a>
+                                </li>
+                            ';
+                        }
+                    }
+                }
+            ?>
+
             <li class="treeview">
                 <a href="#"><span>Multilevel</span> <i class="fa fa-angle-left pull-right"></i></a>
                 <ul class="treeview-menu">

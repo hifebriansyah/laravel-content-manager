@@ -5,11 +5,17 @@
     "require": {
         "laravelcollective/html": "^5.2"
     },
+    "keywords": ["laravel"],
     "authors": [
         {
             "name": "muhammad febriansyah",
             "email": "febri.init@gmail.com"
         }
     ],
-    "minimum-stability": "stable"
+    "minimum-stability": "stable",
+    "autoload": {
+        "psr-4": {
+            "MFebriansyah\\LaravelContentManager\\": "packages/mfebriansyah/laravel-content-manager/src"
+        }
+    }
 }
