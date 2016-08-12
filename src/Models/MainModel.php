@@ -1,11 +1,10 @@
 <?php
 
-namespace MFebriansyah\LaravelContentManager\Model;
+namespace MFebriansyah\LaravelContentManager\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use DB;
 
-class MainModel extends Model
+class MainModel extends \MFebriansyah\LaravelAPIManager\Models\MainModel
 {
     protected $primaryKey = 'id';
     static $columnLabel = 'id';

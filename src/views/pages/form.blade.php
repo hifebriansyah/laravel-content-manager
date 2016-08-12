@@ -83,7 +83,7 @@
                                                 {!! $errors->first($scheme->Field, '<p class="help-block">:message</p>') !!}
                                             </div>                                      
                                         @endif   
-                                        <pre class="hiddens">{{var_dump($scheme)}}</pre>                              
+                                        <pre class="hidden">{{var_dump($scheme)}}</pre>                              
                                     @endif
 
 
