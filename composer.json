@@ -3,8 +3,7 @@
     "description": "content management system for laravel",
     "type": "library",
     "require": {
-        "laravelcollective/html": "^5.2",
-        "mfebriansyah/laravel-api-manager": "dev-master as 1.1.1"
+        "laravelcollective/html": "^5.2"
     },
     "keywords": ["laravel"],
     "authors": [
