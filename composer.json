@@ -4,7 +4,7 @@
     "type": "library",
     "require": {
         "laravelcollective/html": "^5.2",
-        "mfebriansyah/laravel-api-manager": "dev-master"
+        "mfebriansyah/laravel-api-manager": "dev-master as 1.1.1"
     },
     "keywords": ["laravel"],
     "authors": [
