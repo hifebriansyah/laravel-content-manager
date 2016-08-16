@@ -3,7 +3,8 @@
     "description": "content management system for laravel",
     "type": "library",
     "require": {
-        "laravelcollective/html": "^5.2"
+        "laravelcollective/html": "^5.2",
+        "mfebriansyah/laravel-api-manager": "dev-master"
     },
     "keywords": ["laravel"],
     "authors": [
@@ -15,7 +16,7 @@
     "minimum-stability": "stable",
     "autoload": {
         "psr-4": {
-            "MFebriansyah\\LaravelContentManager\\": "packages/mfebriansyah/laravel-content-manager/src"
+            "MFebriansyah\\LaravelContentManager\\": "src/"
         }
     }
 }
