@@ -47,7 +47,7 @@
                                             <div class="form-group {!! $errors->has($scheme->Field) ? 'has-error' : '' !!}">
                                                 <?php 
                                                     $reference = $model->getReference($scheme->Field);
-                                                    $referencedClass = "\\App\\Models\\".studly_case(str_singular($reference->REFERENCED_TABLE_NAME));
+                                                    $referencedClass = '\\App\\Models\\'.studly_case(str_singular($reference->REFERENCED_TABLE_NAME));
                                                 ?>
                                                 {!! Form::label($scheme->Field, str_replace("_", " ", $scheme->Field)) !!}
                                                 {!! Form::select($scheme->Field, ['' => '---']+$referencedClass::lists($referencedClass::$columnLabel,'id')->all(), null, ['id'=>$scheme->Field, 'class'=>'form-control']) !!}{!! $errors->first($scheme->Field, '<p class="help-block">:message</p>') !!}      

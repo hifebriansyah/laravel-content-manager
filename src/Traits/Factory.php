@@ -6,38 +6,41 @@ use DB;
 
 trait Factory
 {
-    public function getSchemes(){
-       return DB::select('show fields from '.$this->table);
+    public function getSchemes()
+    {
+        return DB::select('show fields from '.$this->table);
     }
 
-    public function setRules($schemes){
-    	$rules = [];
+    public function setRules($schemes)
+    {
+        $rules = [];
 
-    	foreach ($schemes as $key => $value) {
-    		$validations = [];
+        foreach ($schemes as $key => $value) {
+            $validations = [];
 
-    		if($value->Null == "NO" && $value->Key != "PRI"){
-    			$validations[] = "required";
-    		}
-
-    		if(strpos($value->Type, 'int') !== false){
-    			$validations[] = "integer";    			
-    		}
-
-            if($value->Default == "CURRENT_TIMESTAMP"){
-                $validations[] = "date";
+            if ($value->null == 'NO' && $value->Key != 'PRI') {
+                $validations[] = 'required';
             }
 
-    		$rules[$value->Field] = implode("|", $validations);
-    	}
+            if (strpos($value->Type, 'int') !== false) {
+                $validations[] = 'integer';
+            }
 
-		$this->rules = array_merge($rules, $this->rules);
+            if ($value->Default == 'CURRENT_TIMESTAMP') {
+                $validations[] = 'date';
+            }
 
-    	return $this;
+            $rules[$value->Field] = implode('|', $validations);
+        }
+
+        $this->rules = array_merge($rules, $this->rules);
+
+        return $this;
     }
 
-    public function getReference($field){
-        $reference =  DB::select('
+    public function getReference($field)
+    {
+        $reference = DB::select('
             select REFERENCED_TABLE_NAME, REFERENCED_COLUMN_NAME
             from
                 information_schema.key_column_usage
@@ -48,7 +51,7 @@ trait Factory
                 and table_schema = "'.$_ENV['DB_DATABASE'].'"
             ');
 
-        if(isset($reference[0])){
+        if (isset($reference[0])) {
             $reference = $reference[0];
         }
 

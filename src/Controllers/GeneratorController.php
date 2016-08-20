@@ -2,7 +2,6 @@
 
 namespace MFebriansyah\LaravelContentManager\Controllers;
 
-use File;
 use Session;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -16,14 +15,14 @@ class GeneratorController extends Controller
     | CONSTRUCTOR
     |--------------------------------------------------------------------------
     */
-    
+
     public function __construct()
     {
-        $class = "App\\Models\\".(\Route::current()->getParameter('class'));
-        $this->model = new $class;
+        $class = 'App\\Models\\'.(\Route::current()->getParameter('class'));
+        $this->model = new $class();
     }
 
-	/*
+    /*
     |--------------------------------------------------------------------------
     | METHODS
     |--------------------------------------------------------------------------
@@ -55,15 +54,17 @@ class GeneratorController extends Controller
 
         $model = $this->model->findOrFail($id);
 
-        foreach ($schemes as $scheme){
-            if ($request->has($scheme->Field)) $model->{$scheme->Field} = $request->input($scheme->Field);
+        foreach ($schemes as $scheme) {
+            if ($request->has($scheme->Field)) {
+                $model->{$scheme->Field} = $request->input($scheme->Field);
+            }
         }
 
         $model->save();
 
-        Session::flash("flash_notification", [
-            "level"=>"success",
-            "message"=>"Update success"
+        Session::flash('flash_notification', [
+            'level' => 'success',
+            'message' => 'Update success',
         ]);
 
         return redirect(url('lcm/gen/'.$class.'/form/'.$model->{$model->getKeyName()}));
@@ -77,17 +78,17 @@ class GeneratorController extends Controller
 
         $this->validate($request, $model->rules);
 
-        foreach ($schemes as $scheme){
-            if(strpos($scheme->Extra, 'auto_increment') === false){
+        foreach ($schemes as $scheme) {
+            if (strpos($scheme->Extra, 'auto_increment') === false) {
                 $model->{$scheme->Field} = request()->input($scheme->Field);
             }
         }
 
         $model->save();
 
-        Session::flash("flash_notification", [
-            "level"=>"success",
-            "message"=>"Create success"
+        Session::flash('flash_notification', [
+            'level' => 'success',
+            'message' => 'Create success',
         ]);
 
         return redirect(url('lcm/gen/'.$class.'/form/'.$model->{$model->getKeyName()}));

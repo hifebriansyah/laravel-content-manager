@@ -9,6 +9,6 @@ abstract class MainModel extends \MFebriansyah\LaravelAPIManager\Models\MainMode
     use factory;
 
     protected $primaryKey = 'id';
-    static $columnLabel = 'id';
+    public static $columnLabel = 'id';
     public $timestamps = false;
 }

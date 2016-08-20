@@ -35,21 +35,24 @@
             <li class="#"><a href="#"><i class="fa fa-dashboard"></i><span>Dashboard</span></a></li>
 
             <?php 
-                $path = app_path() . "/Models";
+                $path = app_path().'/Models';
 getModels($path);
-                function getModels($path){
+                function getModels($path)
+                {
                     $out = [];
                     $results = scandir($path);
                     foreach ($results as $result) {
-                        if ($result === '.' or $result === '..') continue;
-                        $filename = $path . '/' . $result;
+                        if ($result === '.' or $result === '..') {
+                            continue;
+                        }
+                        $filename = $path.'/'.$result;
                         if (is_dir($filename)) {
                             $out = array_merge($out, getModels($filename));
-                        }else{
-                            $filename = explode("/",substr($filename,0,-4));
-                            $className = $filename[count($filename)-1];
+                        } else {
+                            $filename = explode('/', substr($filename, 0, -4));
+                            $className = $filename[count($filename) - 1];
                             $filename = preg_replace('/(?!^)[A-Z]{2,}(?=[A-Z][a-z])|[A-Z][a-z]/', ' $0', $className);
-                            $filename = trim($filename); 
+                            $filename = trim($filename);
                             echo '
                                 <li class="#">
                                     <a href="'.url('lcm/gen/'.$className).'">
