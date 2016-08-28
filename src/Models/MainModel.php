@@ -6,7 +6,7 @@ use MFebriansyah\LaravelContentManager\Traits\Factory;
 
 abstract class MainModel extends \MFebriansyah\LaravelAPIManager\Models\MainModel
 {
-    use factory;
+    use Factory;
 
     protected $primaryKey = 'id';
     public static $columnLabel = 'id';

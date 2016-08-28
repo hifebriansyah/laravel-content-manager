@@ -18,7 +18,7 @@ trait Factory
         foreach ($schemes as $key => $value) {
             $validations = [];
 
-            if ($value->null == 'NO' && $value->Key != 'PRI') {
+            if ($value->Null == 'NO' && $value->Key != 'PRI') {
                 $validations[] = 'required';
             }
 

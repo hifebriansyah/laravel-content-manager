@@ -42,7 +42,7 @@ class GeneratorController extends Controller
         $schemes = $this->model->getSchemes();
         $model = ($id) ? $this->model->findOrFail($id) : $this->model;
 
-        return view('lcm::pages/form', compact('class', 'model', 'schemes', 'model'));
+        return view('lcm::pages/form', compact('class', 'schemes', 'model'));
     }
 
     public function postUpdate($class, $id, Request $request)
@@ -92,5 +92,29 @@ class GeneratorController extends Controller
         ]);
 
         return redirect(url('lcm/gen/'.$class.'/form/'.$model->{$model->getKeyName()}));
+    }
+
+    public function getLogin($class)
+    {
+        return view('lcm::pages/login', compact('model'));
+    }
+
+    public function postLogin($class)
+    {
+        $this->validate(request(), ['email' => 'required', 'password' => 'required']);
+        $model = $this->model->postLogIn();
+
+        if ($model) {
+            $response = redirect(url('lcm/gen/'.$class.'/form/'.$model->{$model->getKeyName()}));
+        } else {
+            Session::flash('flash_notification', [
+                'level' => 'error',
+                'message' => 'Incorrect Credential',
+            ]);
+
+            $response = redirect()->back()->withInput();
+        }
+
+        return $response;
     }
 }
