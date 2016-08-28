@@ -6,9 +6,16 @@ use MFebriansyah\LaravelContentManager\Traits\Factory;
 
 class User extends \MFebriansyah\LaravelAPIManager\Models\User
 {
-    use factory;
+    use Factory;
 
     protected $primaryKey = 'id';
-    public static $columnLabel = 'id';
     public $timestamps = false;
+
+    public static $lcmGlobal = [
+    	'columnLabel' => 'username',
+    	'hides' => [],
+    	'readOnly' => ['created_at', 'updated_at']
+    ];
+
+    public static $lcm = [];
 }

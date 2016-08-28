@@ -30,7 +30,9 @@
                                 @endif
 
                                 @foreach ($schemes as $scheme)
-                                    @if(strpos($scheme->Extra, 'auto_increment') === false)
+                                    @if(strpos($scheme->Extra, 'auto_increment') === false && !in_array($scheme->Field, $lcm['hides']))
+
+                                        <?php $readOnly = (in_array($scheme->Field, $lcm['readOnly'])) ? 'readonly' : '' ?>
 
                                         @if(!$model[$scheme->Field] && $scheme->Default != '')
                                             @if($scheme->Default == 'CURRENT_TIMESTAMP')
@@ -43,43 +45,51 @@
                                             @endif
                                         @endif
 
-                                        @if(strpos($scheme->Key, 'MUL') !== false)
+                                        @if(in_array($scheme->Field, $lcm['files']))
+                                            <div class="form-group {!! $errors->has($scheme->Field) ? 'has-error' : '' !!}">
+                                                {!! Form::label($scheme->Field, str_replace("_", " ", $scheme->Field)) !!}
+                                                {!! Form::file($scheme->Field, $model[$scheme->Field], ['class' => 'form-control', $readOnly]) !!}
+                                                {!! $errors->first($scheme->Field, '<p class="help-block">:message</p>') !!}
+                                            </div>
+                                        @elseif(strpos($scheme->Key, 'MUL') !== false)
                                             <div class="form-group {!! $errors->has($scheme->Field) ? 'has-error' : '' !!}">
                                                 <?php 
                                                     $reference = $model->getReference($scheme->Field);
                                                     $referencedClass = '\\App\\Models\\'.studly_case(str_singular($reference->REFERENCED_TABLE_NAME));
+                                                    $referencedClassLcm = array_merge($referencedClass::$lcmGlobal, $referencedClass::$lcm);
                                                 ?>
                                                 {!! Form::label($scheme->Field, str_replace("_", " ", $scheme->Field)) !!}
-                                                {!! Form::select($scheme->Field, ['' => '---']+$referencedClass::lists($referencedClass::$columnLabel,'id')->all(), null, ['id'=>$scheme->Field, 'class'=>'form-control']) !!}{!! $errors->first($scheme->Field, '<p class="help-block">:message</p>') !!}      
+                                                {!! Form::select($scheme->Field, ['' => '---']+$referencedClass::lists($referencedClassLcm['columnLabel'],'id')->all(), null, ['id'=>$scheme->Field, 'class' => 'form-control', $readOnly]) !!}
+                                                {!! $errors->first($scheme->Field, '<p class="help-block">:message</p>') !!}      
                                             </div>                      
                                         @elseif(strpos($scheme->Type, 'char') !== false)
                                             <div class="form-group {!! $errors->has($scheme->Field) ? 'has-error' : '' !!}">
                                                 {!! Form::label($scheme->Field, str_replace("_", " ", $scheme->Field)) !!}
-                                                {!! Form::text($scheme->Field, $model[$scheme->Field], ['class'=>'form-control']) !!}
+                                                {!! Form::text($scheme->Field, $model[$scheme->Field], ['class' => 'form-control', $readOnly]) !!}
                                                 {!! $errors->first($scheme->Field, '<p class="help-block">:message</p>') !!}
                                             </div>
                                         @elseif(strpos($scheme->Type, 'text') !== false)
                                             <div class="form-group {!! $errors->has($scheme->Field) ? 'has-error' : '' !!}">
                                                 {!! Form::label($scheme->Field, str_replace("_", " ", $scheme->Field)) !!}
-                                                {!! Form::textarea($scheme->Field, $model[$scheme->Field], ['class'=>'form-control']) !!}
+                                                {!! Form::textarea($scheme->Field, $model[$scheme->Field], ['class' => 'form-control', $readOnly]) !!}
                                                 {!! $errors->first($scheme->Field, '<p class="help-block">:message</p>') !!}
                                             </div>
                                         @elseif(strpos($scheme->Type, 'int') !== false)
                                             <div class="form-group {!! $errors->has($scheme->Field) ? 'has-error' : '' !!}">
                                                 {!! Form::label($scheme->Field, str_replace("_", " ", $scheme->Field)) !!}
-                                                {!! Form::number($scheme->Field, $model[$scheme->Field], ['class'=>'form-control']) !!}
+                                                {!! Form::number($scheme->Field, $model[$scheme->Field], ['class' => 'form-control', $readOnly]) !!}
                                                 {!! $errors->first($scheme->Field, '<p class="help-block">:message</p>') !!}
                                             </div>
                                         @elseif(strpos($scheme->Type, 'timestamp') !== false || strpos($scheme->Type, 'date') !== false)
                                             <div class="form-group {!! $errors->has($scheme->Field) ? 'has-error' : '' !!}">
                                                 {!! Form::label($scheme->Field, str_replace("_", " ", $scheme->Field)) !!}
-                                                {!! Form::date($scheme->Field, $model[$scheme->Field], ['class'=>'form-control']) !!}
+                                                {!! Form::text($scheme->Field, $model[$scheme->Field], ['class'=>'form-control has-datepicker', $readOnly]) !!}
                                                 {!! $errors->first($scheme->Field, '<p class="help-block">:message</p>') !!}
                                             </div>
                                         @else
                                             <div class="form-group {!! $errors->has($scheme->Field) ? 'has-error' : '' !!}">
                                                 {!! Form::label($scheme->Field, str_replace("_", " ", $scheme->Field.' [undetect]')) !!}
-                                                {!! Form::text($scheme->Field, $model[$scheme->Field], ['class'=>'form-control']) !!}
+                                                {!! Form::text($scheme->Field, $model[$scheme->Field], ['class' => 'form-control', $readOnly]) !!}
                                                 {!! $errors->first($scheme->Field, '<p class="help-block">:message</p>') !!}
                                             </div>                                      
                                         @endif   
@@ -117,7 +127,7 @@
     <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
     <script>
         $(function() {
-            $( "input[type=date]" ).datepicker({dateFormat:'yy-mm-dd'});
+            $( ".has-datepicker:not([readonly])" ).datepicker({dateFormat:'yy-mm-dd'});
         });
     </script>
 @endsection

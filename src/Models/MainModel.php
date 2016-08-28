@@ -9,6 +9,14 @@ abstract class MainModel extends \MFebriansyah\LaravelAPIManager\Models\MainMode
     use Factory;
 
     protected $primaryKey = 'id';
-    public static $columnLabel = 'id';
     public $timestamps = false;
+
+    public static $lcmGlobal = [
+    	'columnLabel' => 'name',
+    	'hides' => [],
+    	'readOnly' => ['created_at', 'updated_at'],
+    	'files' => ['image_url']
+    ];
+
+    public static $lcm = [];
 }
