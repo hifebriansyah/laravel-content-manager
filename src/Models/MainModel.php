@@ -12,10 +12,10 @@ abstract class MainModel extends \MFebriansyah\LaravelAPIManager\Models\MainMode
     public $timestamps = false;
 
     public static $lcmGlobal = [
-    	'columnLabel' => 'name',
-    	'hides' => [],
-    	'readOnly' => ['created_at', 'updated_at'],
-    	'files' => ['image_url']
+        'columnLabel' => 'name',
+        'hides' => ['created_at', 'updated_at'],
+        'readOnly' => [],
+        'files' => ['image_url'],
     ];
 
     public static $lcm = [];

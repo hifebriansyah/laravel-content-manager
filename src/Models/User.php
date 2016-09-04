@@ -12,9 +12,9 @@ class User extends \MFebriansyah\LaravelAPIManager\Models\User
     public $timestamps = false;
 
     public static $lcmGlobal = [
-    	'columnLabel' => 'username',
-    	'hides' => [],
-    	'readOnly' => ['created_at', 'updated_at']
+        'columnLabel' => 'username',
+        'hides' => [],
+        'readOnly' => ['created_at', 'updated_at'],
     ];
 
     public static $lcm = [];
