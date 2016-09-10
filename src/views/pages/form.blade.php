@@ -56,7 +56,7 @@
                                                 <?php 
                                                     $reference = $model->getReference($scheme->Field);
                                                     $referencedClass = '\\App\\Models\\'.studly_case(str_singular($reference->REFERENCED_TABLE_NAME));
-                                                    $referencedClassLcm = array_merge($referencedClass::$lcmGlobal, $referencedClass::$lcm);
+                                                    $referencedClassLcm = isset($model::$lcm) ? array_merge($model::$lcmGlobal, $model::$lcm) : $model::$lcmGlobal;
                                                 ?>
                                                 {!! Form::label($scheme->Field, str_replace("_", " ", $scheme->Field)) !!}
                                                 {!! Form::select($scheme->Field, ['' => '---']+$referencedClass::lists($referencedClassLcm['columnLabel'],'id')->all(), null, ['id'=>$scheme->Field, 'class' => 'form-control', $readOnly]) !!}

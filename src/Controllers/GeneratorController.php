@@ -41,7 +41,7 @@ class GeneratorController extends Controller
     {
         $schemes = $this->model->getSchemes();
         $model = ($id) ? $this->model->findOrFail($id) : $this->model;
-        $lcm = array_merge($model::$lcmGlobal, $model::$lcm);
+        $lcm = isset($model::$lcm) ? array_merge($model::$lcmGlobal, $model::$lcm) : $model::$lcmGlobal;
 
         return view('lcm::pages/form', compact('class', 'schemes', 'model', 'lcm'));
     }

@@ -6,6 +6,17 @@ use DB;
 
 trait Factory
 {
+    public static function getInstance() {
+        $this->timestamp = false;
+    }
+
+    public static $lcmGlobal = [
+        'columnLabel' => 'name',
+        'hides' => ['created_at', 'updated_at'],
+        'readOnly' => [],
+        'files' => ['image_url'],
+    ];
+
     public function getSchemes()
     {
         return DB::select('show fields from '.$this->table);
