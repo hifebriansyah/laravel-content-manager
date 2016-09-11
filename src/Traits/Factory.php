@@ -3,45 +3,43 @@
 namespace MFebriansyah\LaravelContentManager\Traits;
 
 use DB;
+use Schema;
 
 trait Factory
 {
-    public static function getInstance() {
-        $this->timestamp = false;
-    }
-
-    public static $lcmGlobal = [
-        'columnLabel' => 'name',
+    public $globalConfigs = [
         'hides' => ['created_at', 'updated_at'],
         'readOnly' => [],
         'files' => ['image_url'],
     ];
 
-    public function getSchemes()
+    public function getColumns()
     {
         return DB::select('show fields from '.$this->table);
     }
 
-    public function setRules($schemes)
+    public function setRules($columns)
     {
         $rules = [];
 
-        foreach ($schemes as $key => $value) {
+        foreach ($columns as $key => $column) {
             $validations = [];
 
-            if ($value->Null == 'NO' && $value->Key != 'PRI') {
-                $validations[] = 'required';
+            if (!in_array($column->Field, $this->globalConfigs['hides'])) {
+                if ($column->Null == 'NO' && $column->Key != 'PRI') {
+                    $validations[] = 'required';
+                }
+
+                if (strpos($column->Type, 'int') !== false) {
+                    $validations[] = 'integer';
+                }
+
+                if ($column->Default == 'CURRENT_TIMESTAMP') {
+                    $validations[] = 'date';
+                }
             }
 
-            if (strpos($value->Type, 'int') !== false) {
-                $validations[] = 'integer';
-            }
-
-            if ($value->Default == 'CURRENT_TIMESTAMP') {
-                $validations[] = 'date';
-            }
-
-            $rules[$value->Field] = implode('|', $validations);
+            $rules[$column->Field] = implode('|', $validations);
         }
 
         $this->rules = array_merge($rules, $this->rules);
@@ -67,5 +65,12 @@ trait Factory
         }
 
         return $reference;
+    }
+
+    public function getConfigs()
+    {
+        $this->globalConfigs['columnLabel'] = Schema::hasColumn($this->getTable(), 'name') ? 'name' : 'id';
+
+        return isset($this->lcm) ? array_merge($this->globalConfigs, $this->lcm) : $this->globalConfigs;
     }
 }

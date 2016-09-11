@@ -2,7 +2,7 @@
 
 @section('title', $class)
 
-@section('page-title', $class)
+@section('page-title', strtoupper($class)." MANAGEMENT")
 
 @section('content')
 
@@ -34,9 +34,9 @@
 	                <br>
 	                <table class="table table-bordered">
 	                    <tr>	
-	                    	@foreach ($schemes as $scheme)
-                    			@if(!in_array($scheme->Field, $model->hide))
-                    				<th class="info">{{str_replace("_", " ", $scheme->Field)}}</th>
+	                    	@foreach ($columns as $column)
+                    			@if(!in_array($column->Field, $model->hide))
+                    				<th class="info">{{str_replace("_", " ", $column->Field)}}</th>
                     			@endif
 							@endforeach
 							<th style="text-align:center" class="info">actions</th>
@@ -45,9 +45,9 @@
 	                    @forelse ($data as $row)
 
 		                    <tr>
-		                    	@foreach ($schemes as $scheme)
-	                    			@if(!in_array($scheme->Field, $model->hide))
-		                        	<td>{{ $row[$scheme->Field] }}</td>
+		                    	@foreach ($columns as $column)
+	                    			@if(!in_array($column->Field, $model->hide))
+		                        	<td>{{ $row[$column->Field] }}</td>
 		                			@endif
 								@endforeach
 		                        <td align="center">

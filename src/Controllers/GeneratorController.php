@@ -4,10 +4,12 @@ namespace MFebriansyah\LaravelContentManager\Controllers;
 
 use Session;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use MFebriansyah\LaravelContentManager\Traits\Generator;
 
 class GeneratorController extends Controller
 {
+    use Generator;
+
     protected $model;
 
     /*
@@ -30,34 +32,34 @@ class GeneratorController extends Controller
 
     public function getIndex($class)
     {
-        $schemes = $this->model->getSchemes();
+        $columns = $this->model->getColumns();
         $model = $this->model;
         $data = $model->get();
 
-        return view('lcm::pages/index', compact('class', 'model', 'schemes', 'data'));
+        return view('lcm::pages/index', compact('class', 'model', 'columns', 'data'));
     }
 
     public function getForm($class, $id = null)
     {
-        $schemes = $this->model->getSchemes();
+        $columns = $this->model->getColumns();
         $model = ($id) ? $this->model->findOrFail($id) : $this->model;
-        $lcm = isset($model::$lcm) ? array_merge($model::$lcmGlobal, $model::$lcm) : $model::$lcmGlobal;
+        $generator = $this;
 
-        return view('lcm::pages/form', compact('class', 'schemes', 'model', 'lcm'));
+        return view('lcm::pages/form', compact('class', 'columns', 'model', 'generator'));
     }
 
-    public function postUpdate($class, $id, Request $request)
+    public function postUpdate($class, $id)
     {
-        $schemes = $this->model->getSchemes();
-        $model = $this->model->setRules($schemes);
+        $columns = $this->model->getColumns();
+        $model = $this->model->setRules($columns);
 
-        $this->validate($request, $model->rules);
+        $this->validate(request(), $model->rules);
 
         $model = $this->model->findOrFail($id);
 
-        foreach ($schemes as $scheme) {
-            if ($request->has($scheme->Field)) {
-                $model->{$scheme->Field} = $request->input($scheme->Field);
+        foreach ($columns as $column) {
+            if (request()->has($column->Field)) {
+                $model->{$column->Field} = request()->input($column->Field);
             }
         }
 
@@ -71,17 +73,17 @@ class GeneratorController extends Controller
         return redirect(url('lcm/gen/'.$class.'/form/'.$model->{$model->getKeyName()}));
     }
 
-    public function postStore($class, Request $request)
+    public function postStore($class)
     {
-        $schemes = $this->model->getSchemes();
+        $columns = $this->model->getColumns();
 
-        $model = $this->model->setRules($schemes);
+        $model = $this->model->setRules($columns);
 
-        $this->validate($request, $model->rules);
+        $this->validate(request(), $model->rules);
 
-        foreach ($schemes as $scheme) {
-            if (strpos($scheme->Extra, 'auto_increment') === false) {
-                $model->{$scheme->Field} = request()->input($scheme->Field);
+        foreach ($columns as $column) {
+            if (strpos($column->Extra, 'auto_increment') === false) {
+                $model->{$column->Field} = request()->input($column->Field);
             }
         }
 
