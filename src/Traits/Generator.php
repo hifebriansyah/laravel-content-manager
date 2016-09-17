@@ -1,6 +1,6 @@
 <?php
 
-namespace MFebriansyah\LaravelContentManager\Traits;
+namespace HiFebriansyah\LaravelContentManager\Traits;
 
 use Form;
 use Illuminate\Support\MessageBag;
@@ -73,6 +73,11 @@ trait Generator
                     echo '<pre>', var_dump($column), '</pre>';
                 }
             }
+        }
+
+        foreach ($lcm['checkboxes'] as $key => $value) {
+            echo Form::checkbox('name', 'value');
+
         }
 
         echo '<button type="submit" class="btn btn-info"><i class="fa fa-save"></i>'.(($model[$model->getKeyName()]) ? 'Update' : 'Save').'</button>';

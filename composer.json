@@ -1,21 +1,25 @@
 {
-    "name": "mfebriansyah/laravel-content-manager",
-    "description": "content management system for laravel",
-    "type": "library",
-    "require": {
-        "laravelcollective/html": "^5.2"
-    },
-    "keywords": ["laravel"],
-    "authors": [
-        {
-            "name": "muhammad febriansyah",
-            "email": "febri.init@gmail.com"
-        }
-    ],
-    "minimum-stability": "dev",
-    "autoload": {
-        "psr-4": {
-            "MFebriansyah\\LaravelContentManager\\": "src/"
-        }
+  "name": "hifebriansyah/laravel-content-manager",
+  "description": "Content management system for laravel",
+  "type": "library",
+  "keywords": ["laravel"],
+  "license": "MIT",
+  "support": {
+    "issues": "https://github.com/hifebriansyah/laravel-content-manager/issues",
+    "source": "https://github.com/hifebriansyah/laravel-content-manager"
+  },
+  "authors": [
+    {
+      "name": "Muhammad Febriansyah",
+      "email": "hifebriansyah@gmail.com"
     }
+  ],
+  "autoload": {
+    "psr-4": {
+      "HiFebriansyah\\LaravelAPIManager\\": "src/"
+    }
+  }
+  "require": {
+    "laravelcollective/html": "^5.2"
+  },
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace MFebriansyah\LaravelContentManager;
+namespace HiFebriansyah\LaravelContentManager;
 
 use Illuminate\Support\ServiceProvider;
 

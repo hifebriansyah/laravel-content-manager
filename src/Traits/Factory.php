@@ -1,6 +1,6 @@
 <?php
 
-namespace MFebriansyah\LaravelContentManager\Traits;
+namespace HiFebriansyah\LaravelContentManager\Traits;
 
 use DB;
 use Schema;
@@ -11,6 +11,7 @@ trait Factory
         'hides' => ['created_at', 'updated_at'],
         'readOnly' => [],
         'files' => ['image_url'],
+        'checkboxes' => [],
     ];
 
     public function getColumns()

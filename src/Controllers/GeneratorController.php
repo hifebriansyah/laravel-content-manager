@@ -1,10 +1,10 @@
 <?php
 
-namespace MFebriansyah\LaravelContentManager\Controllers;
+namespace HiFebriansyah\LaravelContentManager\Controllers;
 
 use Session;
 use App\Http\Controllers\Controller;
-use MFebriansyah\LaravelContentManager\Traits\Generator;
+use HiFebriansyah\LaravelContentManager\Traits\Generator;
 
 class GeneratorController extends Controller
 {
